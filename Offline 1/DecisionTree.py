@@ -38,7 +38,7 @@ def calculate_entropy(attribute_name,column_value,examples):
     
 
 def calculate_information_gain(attribute_name,examples):
-    print(attribute_name)
+    #print(attribute_name)
     unique_values = examples[attribute_name].unique()
     #print(unique_values)
     sum=0
@@ -76,12 +76,16 @@ def check_if_same_classification(examples):
 def DecisionTree(examples,attributes,parent_examples):
     #print(len(examples))
    # print(PluralityVal(examples))
+    tree = {}
     if examples.empty: 
-        return PluralityVal(parent_examples)
+        tree['leaf'] = PluralityVal(parent_examples)
+        return tree
     elif check_if_same_classification(examples) != 'False':
-        return check_if_same_classification(examples)
+        tree['leaf'] = check_if_same_classification(examples)
+        return tree
     elif attributes is None:
-        return PluralityVal(examples)
+        tree['leaf'] = PluralityVal(examples)
+        return tree
     else:
         max = -math.inf
         max_attr = ''
@@ -92,11 +96,11 @@ def DecisionTree(examples,attributes,parent_examples):
                 max = Entropy
                 max_attr = attr
             
-        print("Attribute to be taken"+max_attr)
-        tree = {}
+        #print("Attribute to be taken"+max_attr)
+        
        
         
-        tree[max_attr] = list(examples[max_attr].unique())
+        tree['Internal'] = max_attr #list(examples[max_attr].unique())
         #print(tree)
         for vk in df[max_attr].unique():
             #print(vk)
@@ -111,7 +115,72 @@ def DecisionTree(examples,attributes,parent_examples):
             tree[vk] = subtree
     
     return tree
+def predict_label(Decision_Tree,examples):
+    tree = Decision_Tree
+    print(tree)
+    predicted_label = []
+    print(df.shape)
+    for i in range(df.shape[0]):
+        tree = Decision_Tree
+        label = 'Undetermined'
+        while label!='Yes' and label!='No':
+            attribute_to_check = tree['Internal']
+            feature = examples[attribute_to_check][i]
+            tree = tree[feature]
+            if 'leaf' in tree:
+                label = tree['leaf']
+                print(label)
+                predicted_label.append(label)
+                break
+
+    print(predicted_label)
+    return predicted_label
+def calculate_performace(test_y,pred_y):
+    #The accuracy can be defined as the percentage of correctly classified instances 
+    # (TP + TN)/(TP + TN + FP + FN). where TP, FN, FP and TN represent the number of true positives, 
+    #false negatives, false positives and true negatives, respectively
+    true_positive = 0
+    true_negative = 0
+    false_positive = 0
+    false_negative = 0
+    for i in range(test_y.size):
+        if test_y[i]=='Yes':
+
+            if pred_y[i]=='Yes':
+                true_positive = true_positive+1
+            elif pred_y[i]=='No':
+                false_negative = false_negative+1
+        elif test_y[i]=='No':
+            if pred_y[i]=='No':
+                true_negative = true_negative+1
+            elif pred_y[i]=='Yes': 
+                false_positive = false_positive+1
+
+    Accuracy = ((true_positive + true_negative)*1.0)/(true_positive + true_negative + false_positive + false_negative)
+    Recall = (true_positive*1.0) / (true_positive + false_negative) #true positive rate
+    
+    Specificity = (true_negative*1.0)/ (true_negative+false_positive) #true negative rate
+    Precision = (true_positive*1.0) / (true_positive + false_positive)
+    false_discovery_rate = (false_positive*1.0)/(true_positive+false_positive)
+    f1score = 2.0/((1.0/Recall)+(1.0/Precision))
+    print(Accuracy)
+    print(Recall)
+    print(Specificity)
+    print(Precision)
+    print(false_discovery_rate)
+    print(f1score)
+
+                
 
 initial_attributes = ['Outlook','Temperature','Humidity','Wind']
-tree= DecisionTree(df,initial_attributes,df)
-print(tree)
+Decision_Tree= DecisionTree(df,initial_attributes,df)
+print("Decision Tree")
+print(Decision_Tree)
+pred_y = predict_label(Decision_Tree,df)
+test_y = df['Play']
+calculate_performace(test_y,pred_y)
+
+
+
+
+
