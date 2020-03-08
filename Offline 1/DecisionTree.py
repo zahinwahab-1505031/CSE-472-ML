@@ -1,10 +1,19 @@
 import pandas as pd 
 import sklearn
 import math
-    
-data = pd.read_csv("Tennis.csv")
+from sklearn.model_selection import train_test_split
+data = pd.read_csv("test_Telco.csv")
+label = 'Churn'
 #print(data.head())
-df = pd.DataFrame (data, columns = ['Day','Outlook','Temperature','Humidity','Wind','Play'])
+#df = pd.DataFrame (data, columns = ['Day','Outlook','Temperature','Humidity','Wind','Play'])
+df = pd.DataFrame (data, columns = ['gender', 'SeniorCitizen', 'Partner', 'Dependents', 'tenure',
+ 'PhoneService', 'MultipleLines', 'InternetService', 'OnlineSecurity',
+ 'OnlineBackup', 'DeviceProtection', 'TechSupport', 'StreamingTV',
+ 'StreamingMovies', 'Contract', 'PaperlessBilling' ,'PaymentMethod','MonthlyCharges', 'TotalCharges','Churn'])
+initial_attributes = ['gender', 'SeniorCitizen', 'Partner', 'Dependents', 'tenure',
+ 'PhoneService', 'MultipleLines', 'InternetService', 'OnlineSecurity',
+ 'OnlineBackup', 'DeviceProtection', 'TechSupport', 'StreamingTV',
+ 'StreamingMovies', 'Contract', 'PaperlessBilling' ,'PaymentMethod','MonthlyCharges', 'TotalCharges']
 def calculate_entropy_step2(q):
     B1 = 0
     if q == 0:
@@ -23,7 +32,7 @@ def calculate_entropy_step2(q):
 def calculate_entropy(attribute_name,column_value,examples):
     total_p = 0
     total_n = 0
-    for iter in examples[examples[attribute_name]==column_value]['Play'].values:
+    for iter in examples[examples[attribute_name]==column_value][label].values:
         if iter == 'Yes':
             total_p = total_p+1
         elif iter == 'No':
@@ -43,7 +52,7 @@ def calculate_information_gain(attribute_name,examples):
     #print(unique_values)
     sum=0
     total_samples=len(examples)
-    total_samples_positive= len(examples[examples['Play']=='Yes'])
+    total_samples_positive= len(examples[examples[label]=='Yes'])
     ParentEntropy = calculate_entropy_step2(total_samples_positive/total_samples)
     #print(ParentEntropy)
     for val in unique_values:
@@ -56,8 +65,8 @@ def calculate_information_gain(attribute_name,examples):
 def PluralityVal(examples):
     L = len(examples)
     #print(L)
-    positive_samples = examples[examples['Play']=='Yes']
-    negative_samples = examples[examples['Play']=='No']
+    positive_samples = examples[examples[label]=='Yes']
+    negative_samples = examples[examples[label]=='No']
     if len(positive_samples) > len(negative_samples):
         return 'Yes'
     else:
@@ -65,8 +74,8 @@ def PluralityVal(examples):
 def check_if_same_classification(examples):
     L = len(examples)
     #print(L)
-    positive_samples = examples[examples['Play']=='Yes']
-    negative_samples = examples[examples['Play']=='No']
+    positive_samples = examples[examples[label]=='Yes']
+    negative_samples = examples[examples[label]=='No']
     if len(positive_samples) == L:
         return 'Yes'
     elif len(negative_samples) == L:
@@ -74,16 +83,19 @@ def check_if_same_classification(examples):
     else: 
         return 'False'
 def DecisionTree(examples,attributes,parent_examples):
-    #print(len(examples))
+   # print(len(examples))
    # print(PluralityVal(examples))
     tree = {}
     if examples.empty: 
+    #    print("case 1")
         tree['leaf'] = PluralityVal(parent_examples)
         return tree
     elif check_if_same_classification(examples) != 'False':
+     #   print("case 2")
         tree['leaf'] = check_if_same_classification(examples)
         return tree
-    elif attributes is None:
+    elif len(attributes)==0:
+     #   print("case 3")
         tree['leaf'] = PluralityVal(examples)
         return tree
     else:
@@ -119,8 +131,11 @@ def predict_label(Decision_Tree,examples):
     tree = Decision_Tree
     print(tree)
     predicted_label = []
-    print(df.shape)
-    for i in range(df.shape[0]):
+    print("================")
+    print(examples.shape)
+    print("================")
+    for i in range(examples.shape[0]):
+        
         tree = Decision_Tree
         label = 'Undetermined'
         while label!='Yes' and label!='No':
@@ -129,11 +144,11 @@ def predict_label(Decision_Tree,examples):
             tree = tree[feature]
             if 'leaf' in tree:
                 label = tree['leaf']
-                print(label)
+                #print(label)
                 predicted_label.append(label)
                 break
 
-    print(predicted_label)
+ #   print(predicted_label)
     return predicted_label
 def calculate_performace(test_y,pred_y):
     #The accuracy can be defined as the percentage of correctly classified instances 
@@ -169,18 +184,24 @@ def calculate_performace(test_y,pred_y):
     print(Precision)
     print(false_discovery_rate)
     print(f1score)
+#df = pd.DataFrame(diabetes.data, columns=columns) # load the dataset as a pandas data frame
+y = data[label] # define the target variable (dependent variable) as y
+X_train, X_test, y_train, y_test = train_test_split(df, y, test_size=0.1,shuffle=False)
+print (X_train.shape, y_train.shape)
+print (X_test.shape, y_test.shape)
 
-                
-
-initial_attributes = ['Outlook','Temperature','Humidity','Wind']
-Decision_Tree= DecisionTree(df,initial_attributes,df)
+Decision_Tree= DecisionTree(X_train,initial_attributes,X_train)
 print("Decision Tree")
-print(Decision_Tree)
-pred_y = predict_label(Decision_Tree,df)
-test_y = df['Play']
-calculate_performace(test_y,pred_y)
+#print(Decision_Tree)
+#this works fine
 
-
-
+X_test =pd.DataFrame.reset_index(X_test)
+#X_test = X_test.drop(labels = ['Index'],axis=1)
+#print(X_test)
+pred_y = predict_label(Decision_Tree,X_test)
+y_test = X_test[label]
+print(y_test)
+#y_test = pd.DataFrame.reset_index(y_test)
+calculate_performace(y_test,pred_y)
 
 
