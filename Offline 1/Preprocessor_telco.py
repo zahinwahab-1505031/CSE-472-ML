@@ -19,11 +19,11 @@ Attributes = ['gender', 'SeniorCitizen', 'Partner', 'Dependents', 'tenure',
 Label =['Churn']
 
 
-unique_vals_tenure = list(dataset_raw.tenure.unique())
+vals_tenure = list(dataset_raw.tenure)
 #print(unique_vals_tenure)
-unique_vals_tenure.sort()
+vals_tenure.sort()
 #print(unique_vals_tenure)
-mean = sum(unique_vals_tenure)/len(unique_vals_tenure)
+mean = sum(vals_tenure)/len(vals_tenure)
 print(mean)
 dataset_raw['tenure'] = (dataset_raw['tenure'] > mean).astype(bool)
 #print(dataset_raw.head())
@@ -61,4 +61,11 @@ for i in range(len(vals_Total_charges)):
 threshold_mean = sum/count
 dataset_raw['TotalCharges'] = vals_Total_charges
 dataset_raw['TotalCharges'] = (dataset_raw['TotalCharges'] > threshold_mean).astype(bool)
+
+dataset_raw['SeniorCitizen']= dataset_raw['SeniorCitizen'].replace('1', 'Yes')
+dataset_raw['SeniorCitizen']= dataset_raw['SeniorCitizen'].replace('0', 'No')
+
+#dataset_raw['Churn']= dataset_raw['Churn'].replace('Yes', 'Label_Yes')
+#dataset_raw['Churn']= dataset_raw['Churn'].replace('No', 'Label_No')
+
 dataset_raw.to_csv("test_Telco.csv")

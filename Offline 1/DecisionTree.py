@@ -2,10 +2,16 @@ import pandas as pd
 import sklearn
 import math
 from sklearn.model_selection import train_test_split
+
+#print(data.head())
+'''
+data = pd.read_csv("Tennis.csv")
+label = 'Play'
+initial_attributes = ['Day','Outlook','Temperature','Humidity','Wind']
+df = pd.DataFrame (data, columns = ['Day','Outlook','Temperature','Humidity','Wind','Play'])
+'''
 data = pd.read_csv("test_Telco.csv")
 label = 'Churn'
-#print(data.head())
-#df = pd.DataFrame (data, columns = ['Day','Outlook','Temperature','Humidity','Wind','Play'])
 df = pd.DataFrame (data, columns = ['gender', 'SeniorCitizen', 'Partner', 'Dependents', 'tenure',
  'PhoneService', 'MultipleLines', 'InternetService', 'OnlineSecurity',
  'OnlineBackup', 'DeviceProtection', 'TechSupport', 'StreamingTV',
@@ -14,6 +20,14 @@ initial_attributes = ['gender', 'SeniorCitizen', 'Partner', 'Dependents', 'tenur
  'PhoneService', 'MultipleLines', 'InternetService', 'OnlineSecurity',
  'OnlineBackup', 'DeviceProtection', 'TechSupport', 'StreamingTV',
  'StreamingMovies', 'Contract', 'PaperlessBilling' ,'PaymentMethod','MonthlyCharges', 'TotalCharges']
+'''
+data = pd.read_csv('Adult_train.csv')
+label = 'decision'
+df = pd.DataFrame(data,columns =  ['age','workclass','fnlwgt','education','education-num','marital-status',
+'occupation','relationship','race','sex','capital-gain','capital-loss','hours-per-week','native-country','decision'])
+initial_attributes =  ['age','workclass','fnlwgt','education','education-num','marital-status',
+'occupation','relationship','race','sex','capital-gain','capital-loss','hours-per-week','native-country']
+'''
 def calculate_entropy_step2(q):
     B1 = 0
     if q == 0:
@@ -67,7 +81,7 @@ def PluralityVal(examples):
     #print(L)
     positive_samples = examples[examples[label]=='Yes']
     negative_samples = examples[examples[label]=='No']
-    if len(positive_samples) > len(negative_samples):
+    if len(positive_samples) >= len(negative_samples):
         return 'Yes'
     else:
         return 'No'
@@ -86,8 +100,7 @@ def DecisionTree(examples,attributes,parent_examples):
    # print(len(examples))
    # print(PluralityVal(examples))
     tree = {}
-    if examples.empty: 
-    #    print("case 1")
+    if examples.shape[0] == 0: 
         tree['leaf'] = PluralityVal(parent_examples)
         return tree
     elif check_if_same_classification(examples) != 'False':
@@ -117,19 +130,20 @@ def DecisionTree(examples,attributes,parent_examples):
         for vk in df[max_attr].unique():
             #print(vk)
             exs = examples.loc[examples[max_attr] == vk]
+            exs.reset_index(drop=True)
             #print(exs)
             #print(attributes)
             
             if max_attr in attributes:
                 attributes.remove(max_attr)
 
-            subtree = DecisionTree(exs,attributes,examples)
+            subtree = DecisionTree(exs.copy(),attributes[:],examples.copy())
             tree[vk] = subtree
     
     return tree
 def predict_label(Decision_Tree,examples):
     tree = Decision_Tree
-    print(tree)
+    #print(tree)
     predicted_label = []
     print("================")
     print(examples.shape)
@@ -146,7 +160,7 @@ def predict_label(Decision_Tree,examples):
                 label = tree['leaf']
                 #print(label)
                 predicted_label.append(label)
-                break
+                
 
  #   print(predicted_label)
     return predicted_label
@@ -158,17 +172,24 @@ def calculate_performace(test_y,pred_y):
     true_negative = 0
     false_positive = 0
     false_negative = 0
+    print(len(test_y))
     for i in range(test_y.size):
+        #print(test_y[i],pred_y[i])
         if test_y[i]=='Yes':
 
             if pred_y[i]=='Yes':
+                #print("Case : YY")
                 true_positive = true_positive+1
             elif pred_y[i]=='No':
+                #print("Case : YN")
                 false_negative = false_negative+1
         elif test_y[i]=='No':
+            
             if pred_y[i]=='No':
+                #print("Case : NN")
                 true_negative = true_negative+1
             elif pred_y[i]=='Yes': 
+                #print("Case : NY")
                 false_positive = false_positive+1
 
     Accuracy = ((true_positive + true_negative)*1.0)/(true_positive + true_negative + false_positive + false_negative)
@@ -178,6 +199,8 @@ def calculate_performace(test_y,pred_y):
     Precision = (true_positive*1.0) / (true_positive + false_positive)
     false_discovery_rate = (false_positive*1.0)/(true_positive+false_positive)
     f1score = 2.0/((1.0/Recall)+(1.0/Precision))
+    print("Total: ")
+    print(true_positive + true_negative + false_positive + false_negative)
     print(Accuracy)
     print(Recall)
     print(Specificity)
@@ -185,6 +208,16 @@ def calculate_performace(test_y,pred_y):
     print(false_discovery_rate)
     print(f1score)
 #df = pd.DataFrame(diabetes.data, columns=columns) # load the dataset as a pandas data frame
+#for train-test split in telco
+def dfs(tree):
+    if type(tree) == str:
+        print(tree)
+        return
+    
+    for keys in tree.keys():
+        print(keys)
+        dfs(tree[keys])
+
 y = data[label] # define the target variable (dependent variable) as y
 X_train, X_test, y_train, y_test = train_test_split(df, y, test_size=0.1,shuffle=False)
 print (X_train.shape, y_train.shape)
@@ -192,16 +225,39 @@ print (X_test.shape, y_test.shape)
 
 Decision_Tree= DecisionTree(X_train,initial_attributes,X_train)
 print("Decision Tree")
-#print(Decision_Tree)
+print(Decision_Tree)
 #this works fine
 
 X_test =pd.DataFrame.reset_index(X_test)
 #X_test = X_test.drop(labels = ['Index'],axis=1)
 #print(X_test)
+print("=================TEST ACCURACY=======================")
 pred_y = predict_label(Decision_Tree,X_test)
 y_test = X_test[label]
-print(y_test)
 #y_test = pd.DataFrame.reset_index(y_test)
 calculate_performace(y_test,pred_y)
 
 
+print("=================TRAIN ACCURACY=======================")
+pred_y = predict_label(Decision_Tree,X_train)
+y_test = X_train[label]
+#y_test = pd.DataFrame.reset_index(y_test)
+calculate_performace(y_test,pred_y)
+
+
+
+#for adult
+'''
+
+Decision_Tree= DecisionTree(df,initial_attributes,df)
+print("Decision Tree")
+print(Decision_Tree)
+df_test = pd.read_csv('Adult_test.csv')
+print("=====================TEST ACCURACYYYYY===================")
+pred_y = predict_label(Decision_Tree,df_test)
+y_test = df_test[label]
+calculate_performace(y_test,pred_y)
+print("=====================TRAIN ACCURACYYYYY===================")
+pred_y = predict_label(Decision_Tree,df)
+y_test = df[label]
+calculate_performace(y_test,pred_y)'''
