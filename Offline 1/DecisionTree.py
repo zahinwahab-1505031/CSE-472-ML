@@ -2,14 +2,14 @@ import pandas as pd
 import sklearn
 import math
 from sklearn.model_selection import train_test_split
-
+from sklearn import preprocessing
 #print(data.head())
 '''
 data = pd.read_csv("Tennis.csv")
 label = 'Play'
 initial_attributes = ['Day','Outlook','Temperature','Humidity','Wind']
 df = pd.DataFrame (data, columns = ['Day','Outlook','Temperature','Humidity','Wind','Play'])
-'''
+
 data = pd.read_csv("test_Telco.csv")
 label = 'Churn'
 df = pd.DataFrame (data, columns = ['gender', 'SeniorCitizen', 'Partner', 'Dependents', 'tenure',
@@ -27,7 +27,7 @@ df = pd.DataFrame(data,columns =  ['age','workclass','fnlwgt','education','educa
 'occupation','relationship','race','sex','capital-gain','capital-loss','hours-per-week','native-country','decision'])
 initial_attributes =  ['age','workclass','fnlwgt','education','education-num','marital-status',
 'occupation','relationship','race','sex','capital-gain','capital-loss','hours-per-week','native-country']
-'''
+
 def calculate_entropy_step2(q):
     B1 = 0
     if q == 0:
@@ -96,7 +96,7 @@ def check_if_same_classification(examples):
         return 'No'
     else: 
         return 'False'
-def DecisionTree(examples,attributes,parent_examples):
+def DecisionTree(examples,attributes,parent_examples,depth):
    # print(len(examples))
    # print(PluralityVal(examples))
     tree = {}
@@ -107,7 +107,7 @@ def DecisionTree(examples,attributes,parent_examples):
      #   print("case 2")
         tree['leaf'] = check_if_same_classification(examples)
         return tree
-    elif len(attributes)==0:
+    elif len(attributes)==0 or depth==0:
      #   print("case 3")
         tree['leaf'] = PluralityVal(examples)
         return tree
@@ -137,7 +137,7 @@ def DecisionTree(examples,attributes,parent_examples):
             if max_attr in attributes:
                 attributes.remove(max_attr)
 
-            subtree = DecisionTree(exs.copy(),attributes[:],examples.copy())
+            subtree = DecisionTree(exs.copy(),attributes[:],examples.copy(),depth-1)
             tree[vk] = subtree
     
     return tree
@@ -145,17 +145,19 @@ def predict_label(Decision_Tree,examples):
     tree = Decision_Tree
     #print(tree)
     predicted_label = []
-    print("================")
-    print(examples.shape)
-    print("================")
+    #print("================")
+    #print(examples.shape)
+    #print("================")
     for i in range(examples.shape[0]):
         
         tree = Decision_Tree
         label = 'Undetermined'
         while label!='Yes' and label!='No':
-            attribute_to_check = tree['Internal']
-            feature = examples[attribute_to_check][i]
-            tree = tree[feature]
+            if 'Internal' in tree:
+
+                attribute_to_check = tree['Internal']
+                feature = examples[attribute_to_check][i]
+                tree = tree[feature]
             if 'leaf' in tree:
                 label = tree['leaf']
                 #print(label)
@@ -193,22 +195,20 @@ def calculate_performace(test_y,pred_y):
                 false_positive = false_positive+1
 
     Accuracy = ((true_positive + true_negative)*1.0)/(true_positive + true_negative + false_positive + false_negative)
-    Recall = (true_positive*1.0) / (true_positive + false_negative) #true positive rate
+    #Recall = (true_positive*1.0) / (true_positive + false_negative) #true positive rate
     
-    Specificity = (true_negative*1.0)/ (true_negative+false_positive) #true negative rate
-    Precision = (true_positive*1.0) / (true_positive + false_positive)
-    false_discovery_rate = (false_positive*1.0)/(true_positive+false_positive)
-    f1score = 2.0/((1.0/Recall)+(1.0/Precision))
-    print("Total: ")
-    print(true_positive + true_negative + false_positive + false_negative)
-    print(Accuracy)
-    print(Recall)
-    print(Specificity)
-    print(Precision)
-    print(false_discovery_rate)
-    print(f1score)
-#df = pd.DataFrame(diabetes.data, columns=columns) # load the dataset as a pandas data frame
-#for train-test split in telco
+    #Specificity = (true_negative*1.0)/ (true_negative+false_positive) #true negative rate
+    #Precision = (true_positive*1.0) / (true_positive + false_positive)
+    #false_discovery_rate = (false_positive*1.0)/(true_positive+false_positive)
+    #f1score = 2.0/((1.0/Recall)+(1.0/Precision))
+    print("Total: ",true_positive + true_negative + false_positive + false_negative)
+    
+    print("Accuracy: ", Accuracy)
+    #print("Recall: ", Recall)
+    #print("Specificity: ", Specificity)
+    #print("Precision: ", Precision)
+    #print("False Discovery Rate: ", false_discovery_rate)
+    #print("F1 Score: ", f1score)
 def dfs(tree):
     if type(tree) == str:
         print(tree)
@@ -217,15 +217,115 @@ def dfs(tree):
     for keys in tree.keys():
         print(keys)
         dfs(tree[keys])
+def Adaboost(examples,K):
+    w = []
+    h = []
+    Z = []
+    for i in range(examples.shape[0]):
+        w.append(1.0/examples.shape[0])
+    #print(w)
+    for k in range(K):
+        #print(k,"th BOOSTER")
+        data = examples.sample(frac=1,weights=w,replace=True)
+        data_to_pass = data.copy()
+        parent_data_to_pass = data.copy()
+        attributes = initial_attributes
+        tree = DecisionTree(data_to_pass,attributes,parent_data_to_pass,1)
+        #print(tree)
+        #print(data.head())
+        #print(data_reset.head())
+        pred_y = predict_label(tree,examples)
+        true_y = examples[label]
+        error = 0
+        for j in range(examples.shape[0]):
+            if pred_y[j]!=true_y[j]:
+                error = error+w[j]
+        #print("ERROR: ",error)
+        if error > 0.5:
+            continue
+        #print(tree)
+        if error == 0.0:
+            error = 0.0000000000000000000001
+        for j in range(examples.shape[0]):
+            if pred_y[j]==true_y[j]:
+                w[j] = w[j]*(error/(1-error))
+        #print("before:")
+        #print(sum(w))
+        summation_w = sum(w)
+        for iter in range(len(w)):
+            w[iter] = w[iter]/summation_w
+        h.append(tree)
+        var = (1-error)/error
+        Z.append(math.log(var,2.0))
+        #print("Z: ",math.log(var,2.0))
+        #print("after normalizing")
+        #print(sum(w))
+    return h,Z
+
+def encode(rawdata):
+    encoded_data = []
+    for iter in range(len(rawdata)):
+        if rawdata[iter]=='Yes':
+            encoded_data.append(1.0)
+        elif rawdata[iter]=='No':
+            encoded_data.append(-1.0)
+    
+    return encoded_data
+
+def predict_label_adaboost(h,Z,examples):
+    final_encoded_results = []
+    for iter in range(len(h)):
+        #print(Z[iter])
+        pred_y = predict_label(h[iter],examples)
+        pred_y_encoded = encode(pred_y)
+        final_encoded_results.append(pred_y_encoded)
+    weighted_result = []
+    for i in range(examples.shape[0]):
+        res = 0
+        for j in range(len(Z)):
+            res = res + final_encoded_results[j][i]*Z[j]
+        
+
+        weighted_result.append(res)
+    
+    pred_label = []
+    for i in range(len(weighted_result)):
+        
+        if weighted_result[i]>= 0:
+            pred_label.append('Yes')
+        else:
+            pred_label.append('No')
+    return pred_label
+
+
+
+
+
+
+#for telco
+
+
+'''
 
 y = data[label] # define the target variable (dependent variable) as y
 X_train, X_test, y_train, y_test = train_test_split(df, y, test_size=0.1,shuffle=False)
 print (X_train.shape, y_train.shape)
 print (X_test.shape, y_test.shape)
 
-Decision_Tree= DecisionTree(X_train,initial_attributes,X_train)
-print("Decision Tree")
-print(Decision_Tree)
+#Decision_Tree= DecisionTree(X_train,initial_attributes,X_train)
+#print("Decision Tree")
+#print(Decision_Tree)
+h,Z = Adaboost(X_train,10)
+print("=============TRAIN ACCURACY=======================")
+y_train = X_train[label]
+y_pred = predict_label_adaboost(h,Z,X_train)
+calculate_performace(y_train,y_pred)
+print("=============TEST ACCURACY=======================")
+X_test =X_test.reset_index(drop=True)
+y_test =X_test[label]
+y_pred = predict_label_adaboost(h,Z,X_test)
+calculate_performace(y_test,y_pred)
+
 #this works fine
 
 X_test =pd.DataFrame.reset_index(X_test)
@@ -243,13 +343,11 @@ pred_y = predict_label(Decision_Tree,X_train)
 y_test = X_train[label]
 #y_test = pd.DataFrame.reset_index(y_test)
 calculate_performace(y_test,pred_y)
-
-
-
-#for adult
 '''
+#for adult
 
-Decision_Tree= DecisionTree(df,initial_attributes,df)
+
+Decision_Tree= DecisionTree(df,initial_attributes,df,35)
 print("Decision Tree")
 print(Decision_Tree)
 df_test = pd.read_csv('Adult_test.csv')
@@ -259,5 +357,18 @@ y_test = df_test[label]
 calculate_performace(y_test,pred_y)
 print("=====================TRAIN ACCURACYYYYY===================")
 pred_y = predict_label(Decision_Tree,df)
-y_test = df[label]
-calculate_performace(y_test,pred_y)'''
+y_train = df[label]
+calculate_performace(y_train,pred_y)
+for rounds in range(5,25,5):
+    print("ROUND: ",rounds)
+    df_test = pd.read_csv('Adult_test.csv')
+    h,Z = Adaboost(df,rounds)
+    print("=============TRAIN ACCURACY=======================")
+    y_train = df[label]
+    y_pred = predict_label_adaboost(h,Z,df)
+    calculate_performace(y_train,y_pred)
+    print("=============TEST ACCURACY=======================")
+
+    y_test =df_test[label]
+    y_pred = predict_label_adaboost(h,Z,df_test)
+    calculate_performace(y_test,y_pred)
