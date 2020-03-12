@@ -229,7 +229,7 @@ def Adaboost(examples,K):
         data = examples.sample(frac=1,weights=w,replace=True)
         data_to_pass = data.copy()
         parent_data_to_pass = data.copy()
-        attributes = initial_attributes
+        attributes = initial_attributes.copy()
         tree = DecisionTree(data_to_pass,attributes,parent_data_to_pass,1)
         #print(tree)
         #print(data.head())
@@ -306,28 +306,30 @@ def predict_label_adaboost(h,Z,examples):
 
 
 '''
-
 y = data[label] # define the target variable (dependent variable) as y
 X_train, X_test, y_train, y_test = train_test_split(df, y, test_size=0.1,shuffle=False)
 print (X_train.shape, y_train.shape)
 print (X_test.shape, y_test.shape)
 
-#Decision_Tree= DecisionTree(X_train,initial_attributes,X_train)
+#
 #print("Decision Tree")
 #print(Decision_Tree)
-h,Z = Adaboost(X_train,10)
-print("=============TRAIN ACCURACY=======================")
-y_train = X_train[label]
-y_pred = predict_label_adaboost(h,Z,X_train)
-calculate_performace(y_train,y_pred)
-print("=============TEST ACCURACY=======================")
-X_test =X_test.reset_index(drop=True)
-y_test =X_test[label]
-y_pred = predict_label_adaboost(h,Z,X_test)
-calculate_performace(y_test,y_pred)
+for rounds in range(5,25,5):
+    print("ROUND: ",rounds)
+    h,Z = Adaboost(X_train,rounds)
+    print("=============TRAIN ACCURACY=======================")
+    y_train = X_train[label]
+    y_pred = predict_label_adaboost(h,Z,X_train)
+    calculate_performace(y_train,y_pred)
+    print("=============TEST ACCURACY=======================")
+    X_test =X_test.reset_index(drop=True)
+    y_test =X_test[label]
+    y_pred = predict_label_adaboost(h,Z,X_test)
+    calculate_performace(y_test,y_pred)
 
 #this works fine
-
+print("==========DECISION TREE VERSION============================")
+Decision_Tree= DecisionTree(X_train,initial_attributes,X_train,35)
 X_test =pd.DataFrame.reset_index(X_test)
 #X_test = X_test.drop(labels = ['Index'],axis=1)
 #print(X_test)
@@ -340,9 +342,9 @@ calculate_performace(y_test,pred_y)
 
 print("=================TRAIN ACCURACY=======================")
 pred_y = predict_label(Decision_Tree,X_train)
-y_test = X_train[label]
+y_train = X_train[label]
 #y_test = pd.DataFrame.reset_index(y_test)
-calculate_performace(y_test,pred_y)
+calculate_performace(y_train,pred_y)
 '''
 #for adult
 
@@ -351,6 +353,7 @@ Decision_Tree= DecisionTree(df,initial_attributes,df,35)
 print("Decision Tree")
 print(Decision_Tree)
 df_test = pd.read_csv('Adult_test.csv')
+print("-----------------DECISION TREE VERSION-----------------------")
 print("=====================TEST ACCURACYYYYY===================")
 pred_y = predict_label(Decision_Tree,df_test)
 y_test = df_test[label]
@@ -359,6 +362,7 @@ print("=====================TRAIN ACCURACYYYYY===================")
 pred_y = predict_label(Decision_Tree,df)
 y_train = df[label]
 calculate_performace(y_train,pred_y)
+print("-----------------ADABOOST VERSION-----------------------")
 for rounds in range(5,25,5):
     print("ROUND: ",rounds)
     df_test = pd.read_csv('Adult_test.csv')
