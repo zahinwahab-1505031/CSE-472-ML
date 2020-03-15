@@ -20,13 +20,22 @@ initial_attributes = ['gender', 'SeniorCitizen', 'Partner', 'Dependents', 'tenur
  'PhoneService', 'MultipleLines', 'InternetService', 'OnlineSecurity',
  'OnlineBackup', 'DeviceProtection', 'TechSupport', 'StreamingTV',
  'StreamingMovies', 'Contract', 'PaperlessBilling' ,'PaymentMethod','MonthlyCharges', 'TotalCharges']
-'''
+
 data = pd.read_csv('Adult_train.csv')
 label = 'decision'
 df = pd.DataFrame(data,columns =  ['age','workclass','fnlwgt','education','education-num','marital-status',
 'occupation','relationship','race','sex','capital-gain','capital-loss','hours-per-week','native-country','decision'])
 initial_attributes =  ['age','workclass','fnlwgt','education','education-num','marital-status',
 'occupation','relationship','race','sex','capital-gain','capital-loss','hours-per-week','native-country']
+'''
+data = pd.read_csv('credit_card_processed.csv')
+df = pd.DataFrame(data,columns = ['Time', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10',
+       'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20',
+       'V21', 'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28', 'Amount','Class'])
+initial_attributes = [ 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10',
+       'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20',
+       'V21', 'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28', 'Amount']
+label ='Class'
 
 def calculate_entropy_step2(q):
     B1 = 0
@@ -204,6 +213,10 @@ def calculate_performace(test_y,pred_y):
     print("Total: ",true_positive + true_negative + false_positive + false_negative)
     
     print("Accuracy: ", Accuracy)
+    print("True Positive: ",true_positive )
+    print("True Negative: ",true_negative)
+    print("False Positive: ",false_positive )
+    print("False Negative: ",false_negative)
     #print("Recall: ", Recall)
     #print("Specificity: ", Specificity)
     #print("Precision: ", Precision)
@@ -225,15 +238,15 @@ def Adaboost(examples,K):
         w.append(1.0/examples.shape[0])
     #print(w)
     for k in range(K):
-        #print(k,"th BOOSTER")
-        data = examples.sample(frac=1,weights=w,replace=True)
+        print(k,"th BOOSTER")
+        data_to_be_sampled = examples.copy()
+        data = data_to_be_sampled.sample(frac=1,weights=w,replace=True)
+        data.reset_index(drop=True)
         data_to_pass = data.copy()
         parent_data_to_pass = data.copy()
         attributes = initial_attributes.copy()
         tree = DecisionTree(data_to_pass,attributes,parent_data_to_pass,1)
-        #print(tree)
-        #print(data.head())
-        #print(data_reset.head())
+        
         pred_y = predict_label(tree,examples)
         true_y = examples[label]
         error = 0
@@ -243,7 +256,8 @@ def Adaboost(examples,K):
         #print("ERROR: ",error)
         if error > 0.5:
             continue
-        #print(tree)
+       # print(tree)
+        print("H: " ,tree)
         if error == 0.0:
             error = 0.0000000000000000000001
         for j in range(examples.shape[0]):
@@ -257,7 +271,7 @@ def Adaboost(examples,K):
         h.append(tree)
         var = (1-error)/error
         Z.append(math.log(var,2.0))
-        #print("Z: ",math.log(var,2.0))
+        print("Z: ",math.log(var,2.0))
         #print("after normalizing")
         #print(sum(w))
     return h,Z
@@ -273,6 +287,7 @@ def encode(rawdata):
     return encoded_data
 
 def predict_label_adaboost(h,Z,examples):
+    print(len(h),len(Z))
     final_encoded_results = []
     for iter in range(len(h)):
         #print(Z[iter])
@@ -304,10 +319,8 @@ def predict_label_adaboost(h,Z,examples):
 
 #for telco
 
-
-'''
 y = data[label] # define the target variable (dependent variable) as y
-X_train, X_test, y_train, y_test = train_test_split(df, y, test_size=0.1,shuffle=False)
+X_train, X_test, y_train, y_test = train_test_split(df, y, test_size=0.2,shuffle=False)
 print (X_train.shape, y_train.shape)
 print (X_test.shape, y_test.shape)
 
@@ -315,7 +328,9 @@ print (X_test.shape, y_test.shape)
 #print("Decision Tree")
 #print(Decision_Tree)
 for rounds in range(5,25,5):
+    
     print("ROUND: ",rounds)
+    X_train =X_train.reset_index(drop=True)
     h,Z = Adaboost(X_train,rounds)
     print("=============TRAIN ACCURACY=======================")
     y_train = X_train[label]
@@ -323,6 +338,7 @@ for rounds in range(5,25,5):
     calculate_performace(y_train,y_pred)
     print("=============TEST ACCURACY=======================")
     X_test =X_test.reset_index(drop=True)
+    
     y_test =X_test[label]
     y_pred = predict_label_adaboost(h,Z,X_test)
     calculate_performace(y_test,y_pred)
@@ -376,3 +392,4 @@ for rounds in range(5,25,5):
     y_test =df_test[label]
     y_pred = predict_label_adaboost(h,Z,df_test)
     calculate_performace(y_test,y_pred)
+'''

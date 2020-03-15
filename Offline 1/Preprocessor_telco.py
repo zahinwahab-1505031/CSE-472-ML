@@ -9,16 +9,18 @@ def binarize_using_gini(Attribute_to_binarize,dataset_raw,Label):
     values_to_binarize = list(dataset_raw[Attribute_to_binarize].unique())
     values_to_binarize.sort()
     print(len(values_to_binarize))
+    #print((values_to_binarize))
 
     split_points = []
-    res = math.floor(values_to_binarize[0]-((values_to_binarize[0]+values_to_binarize[1])/2))
+    res = math.floor(values_to_binarize[0]-abs((values_to_binarize[0]-values_to_binarize[1])/2))
     split_points.append(res)
     for iter in range(len(values_to_binarize)-1):
         res = math.floor((values_to_binarize[iter]+values_to_binarize[iter+1])/2)
         split_points.append(res)
-    res = math.floor(values_to_binarize[len(values_to_binarize)-1]+((values_to_binarize[len(values_to_binarize)-1]-values_to_binarize[len(values_to_binarize)-2])/2))
+    res = math.floor(values_to_binarize[len(values_to_binarize)-1]+abs((values_to_binarize[len(values_to_binarize)-1]-values_to_binarize[len(values_to_binarize)-2])/2))
     split_points.append(res)
     print(len(split_points))
+    #print((split_points))
     min_gini = 99999
     final_split = split_points[0]
     total_samples = dataset_raw.shape[0]  
@@ -124,7 +126,5 @@ split = binarize_using_gini('TotalCharges',dataset_raw,Label)
 
 dataset_raw['TotalCharges'] = (dataset_raw['TotalCharges'] > split).astype(bool)
 
-dataset_raw['SeniorCitizen']= dataset_raw['SeniorCitizen'].replace('1', 'Yes')
-dataset_raw['SeniorCitizen']= dataset_raw['SeniorCitizen'].replace('0', 'No')
 
 dataset_raw.to_csv("test_Telco.csv")
