@@ -2,7 +2,8 @@ import sklearn
 import pandas as pd
 import math
 dataset_raw  = pd.read_csv("Datasets\creditcard\creditcard.csv")
-def binarize_using_gini(Attribute_to_binarize,dataset_raw,Label):
+
+def binarize_using_gini(Attribute_to_binarize,dataset_raw,label):
     values_to_binarize = list(dataset_raw[Attribute_to_binarize].unique())
     values_to_binarize.sort()
 
@@ -30,15 +31,15 @@ def binarize_using_gini(Attribute_to_binarize,dataset_raw,Label):
     final_split = split_points[0]
     for split in split_points:
         group_1 = dataset_raw[dataset_raw[Attribute_to_binarize] <split]
-        group_1_class_1 = group_1[group_1[Label]=='Yes']
-        group_1_class_0 = group_1[group_1[Label]=='No']
+        group_1_class_1 = group_1[group_1[label]=='Yes']
+        group_1_class_0 = group_1[group_1[label]=='No']
       #  print("CHECKPOINT 1")
 
         #print(group_1.shape[0],group_1_class_1.shape[0],group_1_class_0.shape[0])
 
         group_2 = dataset_raw[dataset_raw[Attribute_to_binarize] >=split]
-        group_2_class_1 = group_2[group_2[Label]=='Yes']
-        group_2_class_0 = group_2[group_2[Label]=='No']
+        group_2_class_1 = group_2[group_2[label]=='Yes']
+        group_2_class_0 = group_2[group_2[label]=='No']
        # print("CHECKPOINT 2")
         #print(group_2.shape[0],group_2_class_1.shape[0],group_2_class_0.shape[0])
         #print(dataset_raw.shape[0],group_1.shape[0],group_2.shape[0])
@@ -80,14 +81,14 @@ def binarize_using_gini(Attribute_to_binarize,dataset_raw,Label):
 Attributes = ['Time', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10',
        'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20',
        'V21', 'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28', 'Amount']
-Label ='Class'
-print(dataset_raw[Label].unique())
-dataset_raw[Label]= dataset_raw[Label].replace(1, 'Yes')
-dataset_raw[Label]= dataset_raw[Label].replace(0, 'No')
-print(dataset_raw[Label].unique())
+label ='Class'
+print(dataset_raw[label].unique())
+dataset_raw[label]= dataset_raw[label].replace(1, 'Yes')
+dataset_raw[label]= dataset_raw[label].replace(0, 'No')
+print(dataset_raw[label].unique())
 for attr in Attributes:
     if attr != 'Time':
         print(attr)
-        split = binarize_using_gini(attr,dataset_raw,Label)
+        split = binarize_using_infogain(attr,dataset_raw,label)
         dataset_raw[attr] = (dataset_raw[attr] > split).astype(bool)
-dataset_raw.to_csv("credit_card_processed.csv")
+dataset_raw.to_csv("credit_card_processed_infogain.csv")

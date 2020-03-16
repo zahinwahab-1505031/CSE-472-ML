@@ -1,0 +1,94 @@
+-----------------DECISION TREE VERSION-----------------------
+=====================TEST ACCURACYYYYY===================
+16281
+Total:  16281
+Accuracy:  0.8243351145507033
+True Positive:  2341
+True Negative:  11080
+False Positive:  1355
+False Negative:  1505
+=====================TRAIN ACCURACYYYYY===================
+32561
+Total:  32561
+Accuracy:  0.9023985749823409
+True Positive:  6084
+True Negative:  23299
+False Positive:  1421
+False Negative:  1757
+-----------------ADABOOST VERSION-----------------------
+ROUND:  5
+=============TRAIN ACCURACY=======================
+5 5
+32561
+Total:  32561
+Accuracy:  0.8194772887810571
+True Positive:  3218
+True Negative:  23465
+False Positive:  1255
+False Negative:  4623
+=============TEST ACCURACY=======================
+5 5
+16281
+Total:  16281
+Accuracy:  0.8220625268718138
+True Positive:  1573
+True Negative:  11811
+False Positive:  624
+False Negative:  2273
+ROUND:  10
+=============TRAIN ACCURACY=======================
+10 10
+32561
+Total:  32561
+Accuracy:  0.8385491846073524
+True Positive:  3716
+True Negative:  23588
+False Positive:  1132
+False Negative:  4125
+=============TEST ACCURACY=======================
+10 10
+16281
+Total:  16281
+Accuracy:  0.8406731773232602
+True Positive:  1830
+True Negative:  11857
+False Positive:  578
+False Negative:  2016
+ROUND:  15
+=============TRAIN ACCURACY=======================
+15 15
+32561
+Total:  32561
+Accuracy:  0.843125211142164
+True Positive:  3721
+True Negative:  23732
+False Positive:  988
+False Negative:  4120
+=============TEST ACCURACY=======================
+15 15
+16281
+Total:  16281
+Accuracy:  0.8447269823720902
+True Positive:  1825
+True Negative:  11928
+False Positive:  507
+False Negative:  2021
+ROUND:  20
+=============TRAIN ACCURACY=======================
+20 20
+32561
+Total:  32561
+Accuracy:  0.8452750222659009
+True Positive:  4270
+True Negative:  23253
+False Positive:  1467
+False Negative:  3571
+=============TEST ACCURACY=======================
+20 20
+16281
+Total:  16281
+Accuracy:  0.8465696210306493
+True Positive:  2120
+True Negative:  11663
+False Positive:  772
+False Negative:  1726

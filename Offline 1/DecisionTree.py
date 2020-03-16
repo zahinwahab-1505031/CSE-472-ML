@@ -20,7 +20,7 @@ initial_attributes = ['gender', 'SeniorCitizen', 'Partner', 'Dependents', 'tenur
  'PhoneService', 'MultipleLines', 'InternetService', 'OnlineSecurity',
  'OnlineBackup', 'DeviceProtection', 'TechSupport', 'StreamingTV',
  'StreamingMovies', 'Contract', 'PaperlessBilling' ,'PaymentMethod','MonthlyCharges', 'TotalCharges']
-
+'''
 data = pd.read_csv('Adult_train.csv')
 label = 'decision'
 df = pd.DataFrame(data,columns =  ['age','workclass','fnlwgt','education','education-num','marital-status',
@@ -28,15 +28,18 @@ df = pd.DataFrame(data,columns =  ['age','workclass','fnlwgt','education','educa
 initial_attributes =  ['age','workclass','fnlwgt','education','education-num','marital-status',
 'occupation','relationship','race','sex','capital-gain','capital-loss','hours-per-week','native-country']
 '''
-data = pd.read_csv('credit_card_processed.csv')
+data = pd.read_csv('credit_card_processed_infogain.csv')
 df = pd.DataFrame(data,columns = ['Time', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10',
        'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20',
        'V21', 'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28', 'Amount','Class'])
+
 initial_attributes = [ 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10',
        'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20',
        'V21', 'V22', 'V23', 'V24', 'V25', 'V26', 'V27', 'V28', 'Amount']
 label ='Class'
-
+#df[label]= df[label].replace(1, 'Yes')
+#df[label]= df[label].replace(0, 'No')
+'''
 def calculate_entropy_step2(q):
     B1 = 0
     if q == 0:
@@ -175,6 +178,53 @@ def predict_label(Decision_Tree,examples):
 
  #   print(predicted_label)
     return predicted_label
+def calculate_performace_summary(test_y,pred_y):
+    #The accuracy can be defined as the percentage of correctly classified instances 
+    # (TP + TN)/(TP + TN + FP + FN). where TP, FN, FP and TN represent the number of true positives, 
+    #false negatives, false positives and true negatives, respectively
+    true_positive = 0
+    true_negative = 0
+    false_positive = 0
+    false_negative = 0
+    print(len(test_y))
+    for i in range(test_y.size):
+        #print(test_y[i],pred_y[i])
+        if test_y[i]=='Yes':
+
+            if pred_y[i]=='Yes':
+                #print("Case : YY")
+                true_positive = true_positive+1
+            elif pred_y[i]=='No':
+                #print("Case : YN")
+                false_negative = false_negative+1
+        elif test_y[i]=='No':
+            
+            if pred_y[i]=='No':
+                #print("Case : NN")
+                true_negative = true_negative+1
+            elif pred_y[i]=='Yes': 
+                #print("Case : NY")
+                false_positive = false_positive+1
+
+    Accuracy = ((true_positive + true_negative)*1.0)/(true_positive + true_negative + false_positive + false_negative)
+    Recall = (true_positive*1.0) / (true_positive + false_negative) #true positive rate
+    
+    Specificity = (true_negative*1.0)/ (true_negative+false_positive) #true negative rate
+    Precision = (true_positive*1.0) / (true_positive + false_positive)
+    false_discovery_rate = (false_positive*1.0)/(true_positive+false_positive)
+    f1score = 2.0/((1.0/Recall)+(1.0/Precision))
+    print("Total: ",true_positive + true_negative + false_positive + false_negative)
+    
+    print("Accuracy: ", Accuracy)
+    print("True Positive: ",true_positive )
+    print("True Negative: ",true_negative)
+    print("False Positive: ",false_positive )
+    print("False Negative: ",false_negative)
+    print("Recall: ", Recall)
+    print("Specificity: ", Specificity)
+    print("Precision: ", Precision)
+    print("False Discovery Rate: ", false_discovery_rate)
+    print("F1 Score: ", f1score)
 def calculate_performace(test_y,pred_y):
     #The accuracy can be defined as the percentage of correctly classified instances 
     # (TP + TN)/(TP + TN + FP + FN). where TP, FN, FP and TN represent the number of true positives, 
@@ -238,7 +288,7 @@ def Adaboost(examples,K):
         w.append(1.0/examples.shape[0])
     #print(w)
     for k in range(K):
-        print(k,"th BOOSTER")
+        #print(k,"th BOOSTER")
         data_to_be_sampled = examples.copy()
         data = data_to_be_sampled.sample(frac=1,weights=w,replace=True)
         data.reset_index(drop=True)
@@ -257,7 +307,7 @@ def Adaboost(examples,K):
         if error > 0.5:
             continue
        # print(tree)
-        print("H: " ,tree)
+        #print("H: " ,tree)
         if error == 0.0:
             error = 0.0000000000000000000001
         for j in range(examples.shape[0]):
@@ -271,7 +321,7 @@ def Adaboost(examples,K):
         h.append(tree)
         var = (1-error)/error
         Z.append(math.log(var,2.0))
-        print("Z: ",math.log(var,2.0))
+        #print("Z: ",math.log(var,2.0))
         #print("after normalizing")
         #print(sum(w))
     return h,Z
@@ -315,8 +365,7 @@ def predict_label_adaboost(h,Z,examples):
 
 
 
-
-
+'''
 #for telco
 
 y = data[label] # define the target variable (dependent variable) as y
@@ -353,31 +402,35 @@ print("=================TEST ACCURACY=======================")
 pred_y = predict_label(Decision_Tree,X_test)
 y_test = X_test[label]
 #y_test = pd.DataFrame.reset_index(y_test)
-calculate_performace(y_test,pred_y)
+calculate_performace_summary(y_test,pred_y)
 
 
 print("=================TRAIN ACCURACY=======================")
 pred_y = predict_label(Decision_Tree,X_train)
 y_train = X_train[label]
 #y_test = pd.DataFrame.reset_index(y_test)
-calculate_performace(y_train,pred_y)
+calculate_performace_summary(y_train,pred_y)
 '''
 #for adult
 
 
-Decision_Tree= DecisionTree(df,initial_attributes,df,35)
-print("Decision Tree")
-print(Decision_Tree)
-df_test = pd.read_csv('Adult_test.csv')
+Decision_Tree= DecisionTree(df,initial_attributes,df,40)
+#print("Decision Tree")
+#print(Decision_Tree)
+data_test = pd.read_csv('Adult_test.csv')
+df_test =pd.read_csv('Adult_test.csv')
+# pd.DataFrame(data_test,columns =  ['age','workclass','fnlwgt','education','education-num','marital-status',
+#'occupation','relationship','race','sex','capital-gain','capital-loss','hours-per-week','native-country','decision'])
+
 print("-----------------DECISION TREE VERSION-----------------------")
 print("=====================TEST ACCURACYYYYY===================")
 pred_y = predict_label(Decision_Tree,df_test)
 y_test = df_test[label]
-calculate_performace(y_test,pred_y)
+calculate_performace_summary(y_test,pred_y)
 print("=====================TRAIN ACCURACYYYYY===================")
 pred_y = predict_label(Decision_Tree,df)
 y_train = df[label]
-calculate_performace(y_train,pred_y)
+calculate_performace_summary(y_train,pred_y)
 print("-----------------ADABOOST VERSION-----------------------")
 for rounds in range(5,25,5):
     print("ROUND: ",rounds)
@@ -392,4 +445,3 @@ for rounds in range(5,25,5):
     y_test =df_test[label]
     y_pred = predict_label_adaboost(h,Z,df_test)
     calculate_performace(y_test,y_pred)
-'''

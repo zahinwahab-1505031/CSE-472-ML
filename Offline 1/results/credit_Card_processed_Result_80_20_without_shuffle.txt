@@ -1,0 +1,245 @@
+(227845, 31) (227845,)
+(56962, 31) (56962,)
+ROUND:  5
+0 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'No'}, False: {'leaf': 'Yes'}}
+Z:  10.131071317012326
+1 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'No'}, False: {'leaf': 'No'}}
+Z:  1.2484634752275312
+2 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'Yes'}, False: {'leaf': 'No'}}
+Z:  0.856053694521024
+3 th BOOSTER
+H:  {'Internal': 'Amount', True: {'leaf': 'No'}, False: {'leaf': 'Yes'}}
+Z:  1.223424982868269
+4 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'Yes'}, False: {'leaf': 'No'}}
+Z:  0.37327291656517114
+=============TRAIN ACCURACY=======================
+5 5
+227845
+Total:  227845
+Accuracy:  0.9991090434286467
+True Positive:  297
+True Negative:  227345       
+False Positive:  83
+False Negative:  120
+=============TEST ACCURACY=======================
+5 5
+56962
+Total:  56962
+Accuracy:  0.9989817773252344
+True Positive:  32
+True Negative:  56872
+False Positive:  15
+False Negative:  43
+ROUND:  10
+0 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'No'}, False: {'leaf': 'Yes'}}
+Z:  10.131071317012326
+1 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'No'}, False: {'leaf': 'No'}}
+Z:  1.2484634752275312
+2 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'Yes'}, False: {'leaf': 'No'}}
+Z:  0.856053694521024
+3 th BOOSTER
+H:  {'Internal': 'Amount', True: {'leaf': 'No'}, False: {'leaf': 'Yes'}}
+Z:  1.223424982868269
+4 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'Yes'}, False: {'leaf': 'No'}}
+Z:  0.37327291656517114
+5 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'No'}, False: {'leaf': 'No'}}
+Z:  0.584560174073193
+6 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'Yes'}, False: {'leaf': 'No'}}
+Z:  0.4792727596289472
+7 th BOOSTER
+H:  {'Internal': 'V14', True: {'leaf': 'No'}, False: {'leaf': 'Yes'}}
+Z:  0.7744926292243924
+8 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'Yes'}, False: {'leaf': 'No'}}
+Z:  0.6036260243916675
+9 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'No'}, False: {'leaf': 'No'}}
+Z:  0.33457015435299825
+=============TRAIN ACCURACY=======================
+10 10
+227845
+Total:  227845
+Accuracy:  0.9991090434286467
+True Positive:  297
+True Negative:  227345
+False Positive:  83
+False Negative:  120
+=============TEST ACCURACY=======================
+10 10
+56962
+Total:  56962
+Accuracy:  0.9989817773252344
+True Positive:  32
+True Negative:  56872
+False Positive:  15
+False Negative:  43
+ROUND:  15
+0 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'No'}, False: {'leaf': 'Yes'}}
+Z:  10.131071317012326
+1 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'No'}, False: {'leaf': 'No'}}
+Z:  1.2484634752275312
+2 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'Yes'}, False: {'leaf': 'No'}}
+Z:  0.856053694521024
+3 th BOOSTER
+H:  {'Internal': 'Amount', True: {'leaf': 'No'}, False: {'leaf': 'Yes'}}
+Z:  1.223424982868269
+4 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'Yes'}, False: {'leaf': 'No'}}
+Z:  0.37327291656517114
+5 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'No'}, False: {'leaf': 'No'}}
+Z:  0.584560174073193
+6 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'Yes'}, False: {'leaf': 'No'}}
+Z:  0.4792727596289472
+7 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'No'}, False: {'leaf': 'No'}}
+Z:  0.4046186636167645
+8 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'Yes'}, False: {'leaf': 'No'}}
+Z:  0.3486818920893187
+9 th BOOSTER
+H:  {'Internal': 'V14', True: {'leaf': 'No'}, False: {'leaf': 'Yes'}}
+Z:  0.7348543862194332
+10 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'Yes'}, False: {'leaf': 'No'}}
+Z:  0.578232072960838
+11 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'No'}, False: {'leaf': 'No'}}
+Z:  0.2491928764668334
+12 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'Yes'}, False: {'leaf': 'No'}}
+Z:  0.22362079572188395
+13 th BOOSTER
+H:  {'Internal': 'V14', True: {'leaf': 'No'}, False: {'leaf': 'Yes'}}
+Z:  0.45881155244282784
+14 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'Yes'}, False: {'leaf': 'No'}}
+Z:  0.3892517672891293
+=============TRAIN ACCURACY=======================
+15 15
+227845
+Total:  227845
+Accuracy:  0.9991090434286467
+True Positive:  297
+True Negative:  227345
+False Positive:  83
+False Negative:  120
+=============TEST ACCURACY=======================
+15 15
+56962
+Total:  56962
+Accuracy:  0.9989817773252344
+True Positive:  32
+True Negative:  56872
+False Positive:  15
+False Negative:  43
+ROUND:  20
+0 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'No'}, False: {'leaf': 'Yes'}}
+Z:  10.131071317012326
+1 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'No'}, False: {'leaf': 'No'}}
+Z:  1.2484634752275312
+2 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'Yes'}, False: {'leaf': 'No'}}
+Z:  0.856053694521024
+3 th BOOSTER
+H:  {'Internal': 'Amount', True: {'leaf': 'No'}, False: {'leaf': 'Yes'}}
+Z:  1.223424982868269
+4 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'Yes'}, False: {'leaf': 'No'}}
+Z:  0.37327291656517114
+5 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'No'}, False: {'leaf': 'No'}}
+Z:  0.584560174073193
+6 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'Yes'}, False: {'leaf': 'No'}}
+Z:  0.4792727596289472
+7 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'No'}, False: {'leaf': 'No'}}
+Z:  0.4046186636167645
+8 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'Yes'}, False: {'leaf': 'No'}}
+Z:  0.3486818920893187
+9 th BOOSTER
+H:  {'Internal': 'V14', True: {'leaf': 'No'}, False: {'leaf': 'Yes'}}
+Z:  0.7348543862194332
+10 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'Yes'}, False: {'leaf': 'No'}}
+Z:  0.578232072960838
+11 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'No'}, False: {'leaf': 'No'}}
+Z:  0.2491928764668334
+12 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'Yes'}, False: {'leaf': 'No'}}
+Z:  0.22362079572188395
+13 th BOOSTER
+H:  {'Internal': 'V14', True: {'leaf': 'No'}, False: {'leaf': 'Yes'}}
+Z:  0.45881155244282784
+14 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'Yes'}, False: {'leaf': 'No'}}
+Z:  0.3892517672891293
+15 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'No'}, False: {'leaf': 'No'}}
+Z:  0.17496921146124544
+16 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'Yes'}, False: {'leaf': 'No'}}
+Z:  0.15946026359210605
+17 th BOOSTER
+H:  {'Internal': 'V14', True: {'leaf': 'No'}, False: {'leaf': 'Yes'}}
+Z:  0.3268671982990057
+18 th BOOSTER
+H:  {'Internal': 'V17', True: {'leaf': 'Yes'}, False: {'leaf': 'No'}}
+Z:  0.28684310108406913
+19 th BOOSTER
+H:  {'Internal': 'V13', True: {'leaf': 'No'}, False: {'leaf': 'Yes'}}
+Z:  0.36942319641160754
+=============TRAIN ACCURACY=======================
+20 20
+227845
+Total:  227845
+Accuracy:  0.9991090434286467
+True Positive:  297
+True Negative:  227345
+False Positive:  83
+False Negative:  120
+=============TEST ACCURACY=======================
+20 20
+56962
+Total:  56962
+Accuracy:  0.9989817773252344
+True Positive:  32
+True Negative:  56872
+False Positive:  15
+False Negative:  43
+==========DECISION TREE VERSION============================
+=================TEST ACCURACY=======================
+56962
+Total:  56962
+Accuracy:  0.9992451107756047
+True Positive:  42
+True Negative:  56877
+False Positive:  10
+False Negative:  33
+=================TRAIN ACCURACY=======================
+227845
+Total:  227845
+Accuracy:  0.9995567161886371
+True Positive:  334
+True Negative:  227410
+False Positive:  18
+False Negative:  83
