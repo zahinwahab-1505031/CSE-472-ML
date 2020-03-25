@@ -1,0 +1,105 @@
+(5634, 20) (5634,)
+(1409, 20) (1409,)
+ROUND:  5
+=============TRAIN ACCURACY=======================
+5 5
+5634
+Total:  5634
+Accuracy:  79.09123180688677 %
+True Positive:  602
+True Negative:  3854
+False Positive:  292
+False Negative:  886
+=============TEST ACCURACY=======================
+5 5
+1409
+Total:  1409
+Accuracy:  79.4180269694819 %
+True Positive:  155
+True Negative:  964
+False Positive:  64
+False Negative:  226
+ROUND:  10
+=============TRAIN ACCURACY=======================
+10 10
+5634
+Total:  5634
+Accuracy:  79.3574724884629 %
+True Positive:  750
+True Negative:  3721
+False Positive:  425
+False Negative:  738
+=============TEST ACCURACY=======================
+10 10
+1409
+Total:  1409
+Accuracy:  79.4180269694819 %
+True Positive:  184
+True Negative:  935
+False Positive:  93
+False Negative:  197
+ROUND:  15
+=============TRAIN ACCURACY=======================
+15 15
+5634
+Total:  5634
+Accuracy:  79.94320198793042 %
+True Positive:  762
+True Negative:  3742
+False Positive:  404
+False Negative:  726
+=============TEST ACCURACY=======================
+15 15
+1409
+Total:  1409
+Accuracy:  79.55997161107167 %
+True Positive:  190
+True Negative:  931
+False Positive:  97
+False Negative:  191
+ROUND:  20
+=============TRAIN ACCURACY=======================
+20 20
+5634
+Total:  5634
+Accuracy:  79.87220447284345 %
+True Positive:  797
+True Negative:  3703
+False Positive:  443
+False Negative:  691
+=============TEST ACCURACY=======================
+20 20
+1409
+Total:  1409
+Accuracy:  80.41163946061036 %
+True Positive:  204
+True Negative:  929
+False Positive:  99
+False Negative:  177
+==========DECISION TREE VERSION============================
+=================TEST ACCURACY=======================
+1409
+Total:  1409
+Accuracy:  73.88218594748048 %
+True Positive:  216
+True Negative:  825
+False Positive:  203
+False Negative:  165
+Recall:  0.5669291338582677
+Specificity:  0.8025291828793775
+Precision:  0.5155131264916468
+False Discovery Rate:  0.48448687350835323
+F1 Score:  0.54
+=================TRAIN ACCURACY=======================
+5634
+Total:  5634
+Accuracy:  94.63968761093362 %
+True Positive:  1397
+True Negative:  3935
+False Positive:  211
+False Negative:  91
+Recall:  0.9388440860215054
+Specificity:  0.9491075735648818
+Precision:  0.8687810945273632
+False Discovery Rate:  0.13121890547263682
+F1 Score:  0.9024547803617571

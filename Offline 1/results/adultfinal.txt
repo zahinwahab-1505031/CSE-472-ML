@@ -1,0 +1,172 @@
+(32561, 15)
+119
+age
+73 
+=================================================================================
+74
+FINAL SPLIT:  27.5
+fnlwgt
+21648
+=================================================================================
+21649
+FINAL SPLIT:  209923.0
+capital-gain
+119
+=================================================================================
+120
+FINAL SPLIT:  7073.5
+capital-loss
+92
+=================================================================================
+93
+FINAL SPLIT:  1820.5
+hours-per-week
+94
+=================================================================================
+95
+FINAL SPLIT:  41.5
+education-num
+16
+=================================================================================
+17
+FINAL SPLIT:  12.5
+ <=50K.    12435
+ >50K.      3846
+Name: decision, dtype: int64
+No     12435
+Yes     3846
+Name: decision, dtype: int64
+age
+73
+=================================================================================
+74
+FINAL SPLIT:  27.5
+fnlwgt
+12787
+=================================================================================
+12788
+FINAL SPLIT:  97437.5
+capital-gain
+113
+=================================================================================
+114
+FINAL SPLIT:  7055.5
+capital-loss
+82
+=================================================================================
+83
+FINAL SPLIT:  1881.5
+hours-per-week
+89
+=================================================================================
+90
+FINAL SPLIT:  40.5
+education-num
+16
+=================================================================================
+17
+FINAL SPLIT:  12.5
+-----------------DECISION TREE VERSION-----------------------
+=====================TEST ACCURACYYYYY===================
+16281
+Total:  16281
+Accuracy:  0.8250721700141269
+True Positive:  2344
+True Negative:  11089
+False Positive:  1346
+False Negative:  1502
+Recall:  0.609464378575143
+Specificity:  0.8917571371129875
+Precision:  0.635230352303523
+False Discovery Rate:  0.36476964769647696
+F1 Score:  0.6220806794055201
+=====================TRAIN ACCURACYYYYY===================
+32561
+Total:  32561
+Accuracy:  0.9013850925954363
+True Positive:  6066
+True Negative:  23284
+False Positive:  1436
+False Negative:  1775
+Recall:  0.7736258130340518
+Specificity:  0.9419093851132686
+Precision:  0.8085843774993335
+False Discovery Rate:  0.1914156225006665
+F1 Score:  0.7907188946099198
+-----------------ADABOOST VERSION-----------------------
+ROUND:  5
+=============TRAIN ACCURACY=======================
+5 5
+32561
+Total:  32561
+Accuracy:  0.8194772887810571
+True Positive:  3218
+True Negative:  23465
+False Positive:  1255
+False Negative:  4623
+=============TEST ACCURACY=======================
+5 5
+16281
+Total:  16281
+Accuracy:  0.8220625268718138
+True Positive:  1573
+True Negative:  11811
+False Positive:  624
+False Negative:  2273
+ROUND:  10
+=============TRAIN ACCURACY=======================
+10 10
+32561
+Total:  32561
+Accuracy:  0.8391941279444735
+True Positive:  3761
+True Negative:  23564
+False Positive:  1156
+False Negative:  4080
+=============TEST ACCURACY=======================
+10 10
+16281
+Total:  16281
+Accuracy:  0.8408574411891161
+True Positive:  1829
+True Negative:  11861
+False Positive:  574
+False Negative:  2017
+ROUND:  15
+=============TRAIN ACCURACY=======================
+15 15
+32561
+Total:  32561
+Accuracy:  0.8414667854181382
+True Positive:  3685
+True Negative:  23714
+False Positive:  1006
+False Negative:  4156
+=============TEST ACCURACY=======================
+15 15
+16281
+Total:  16281
+Accuracy:  0.8422701308273448
+True Positive:  1780
+True Negative:  11933
+False Positive:  502
+False Negative:  2066
+ROUND:  20
+=============TRAIN ACCURACY=======================
+20 20
+32561
+Total:  32561
+Accuracy:  0.8433709038420196
+True Positive:  4294
+True Negative:  23167
+False Positive:  1553
+False Negative:  3547
+=============TEST ACCURACY=======================
+20 20
+16281
+Total:  16281
+Accuracy:  0.8434985565997175
+True Positive:  2071
+True Negative:  11662
+False Positive:  773
+False Negative:  1775

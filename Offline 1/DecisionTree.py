@@ -9,7 +9,7 @@ data = pd.read_csv("Tennis.csv")
 label = 'Play'
 initial_attributes = ['Day','Outlook','Temperature','Humidity','Wind']
 df = pd.DataFrame (data, columns = ['Day','Outlook','Temperature','Humidity','Wind','Play'])
-
+'''
 data = pd.read_csv("test_Telco.csv")
 label = 'Churn'
 df = pd.DataFrame (data, columns = ['gender', 'SeniorCitizen', 'Partner', 'Dependents', 'tenure',
@@ -27,7 +27,7 @@ df = pd.DataFrame(data,columns =  ['age','workclass','fnlwgt','education','educa
 'occupation','relationship','race','sex','capital-gain','capital-loss','hours-per-week','native-country','decision'])
 initial_attributes =  ['age','workclass','fnlwgt','education','education-num','marital-status',
 'occupation','relationship','race','sex','capital-gain','capital-loss','hours-per-week','native-country']
-'''
+
 data = pd.read_csv('credit_card_processed_infogain.csv')
 df = pd.DataFrame(data,columns = ['Time', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9', 'V10',
        'V11', 'V12', 'V13', 'V14', 'V15', 'V16', 'V17', 'V18', 'V19', 'V20',
@@ -365,11 +365,10 @@ def predict_label_adaboost(h,Z,examples):
 
 
 
-'''
 #for telco
 
 y = data[label] # define the target variable (dependent variable) as y
-X_train, X_test, y_train, y_test = train_test_split(df, y, test_size=0.2,shuffle=False)
+X_train, X_test, y_train, y_test = train_test_split(df, y, test_size=0.2,shuffle=True)
 print (X_train.shape, y_train.shape)
 print (X_test.shape, y_test.shape)
 
@@ -445,3 +444,4 @@ for rounds in range(5,25,5):
     y_test =df_test[label]
     y_pred = predict_label_adaboost(h,Z,df_test)
     calculate_performace(y_test,y_pred)
+'''
